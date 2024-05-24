@@ -10,18 +10,19 @@
         body {
             background-color: #121212;
             color: #ffffff;
+         
         }
         h1 {
             color: #ffffff;
         }
-        button {
-            margin-bottom: 20px;
-        }
         .carton {
+            margin-top: 20px;
+            border: 2px solid #ffffff;
+        }
+        .fila {
             display: grid;
             grid-template-columns: repeat(9, 1fr);
-           
-            max-width: 1200px;            
+            max-width: 900px;            
         }
         .celda {
             font-size: 30px;
@@ -32,23 +33,55 @@
             text-align: center; 
             color: #ffffff;
         }
-        /* Estilos adicionales para centrar */
         .container {
+            transform: scale(1.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 95vh;
+        }
+        @media print {
+            body {
+                background-color: #ffffff;
+                color: #000000;
+                -webkit-print-color-adjust:exact !important;
+                print-color-adjust:exact !important;
+            }
+            .container {
+                transform: none;
+                display: block;
+                width: 100%;
+                height: auto;
+                page-break-inside: avoid;
+                margin: 0;
+            }
+            .cartones {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+            .carton {
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+
+            h1, .buttons {
+                display: none;
+            }
+            .celda {
+                background-color: #d1cfcf;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Generador de Cartones de Bingo</h1>
-        <div><button class="btn btn-primary" onclick="construirCarton()">Generar Cartón</button>
-            <button class="btn btn-secondary" onclick="window.print()">Imprimir Cartón</button></div>
+        <div class="buttons"><button class="btn btn-primary" onclick="construirCarton()">Generar Cartón</button>
+            <button class="btn btn-secondary" onclick="imprimirCartones()">Imprimir Cartones</button></div>
         
-        <div id="carton"></div>
+        <div id="cartones" class="cartones"></div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

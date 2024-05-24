@@ -1,6 +1,4 @@
 function generarCarton() {
-    const carton = document.getElementById('carton');
-    carton.innerHTML = '';
     const numerosGenerados = [];
     const cartonNumeros = cartonVacio();
 
@@ -44,14 +42,15 @@ function generarCarton() {
 
 function graficarCarton(cartonNumeros) {
     
-    const cartonContainer = document.getElementById('carton');
-    cartonContainer.innerHTML = ''; 
+    const cartonesContainer = document.getElementById('cartones');
+    const cartonDiv = document.createElement('div');
+    cartonDiv.classList.add('carton');
     const colores = ['#007bff', '#28a745', '#fd7e14', '#c375ff']; 
     const colorAleatorio  = colores[Math.floor(Math.random() * 4)]
 
     for (let i = 0; i < cartonNumeros.length; i++) {
         const fila = document.createElement('div');
-        fila.classList.add('carton');
+        fila.classList.add('fila');
 
         for (let j = 0; j < cartonNumeros[i].length; j++) {
             const celda = document.createElement('div');
@@ -61,14 +60,17 @@ function graficarCarton(cartonNumeros) {
                 celda.textContent = cartonNumeros[i][j];
                 celda.style.color = colorAleatorio;
             } else {
+                celda.classList.add('vacia')
                 celda.style.backgroundColor = colorAleatorio;
             }
 
             fila.appendChild(celda);
         }
 
-        cartonContainer.appendChild(fila);
+        cartonDiv.appendChild(fila);
+        cartonDiv.style.borderColor = colorAleatorio;
     }
+    cartonesContainer.appendChild(cartonDiv);
 }
 
 function contarNumerosColumna(columna, carton) {
@@ -131,13 +133,24 @@ function filaValida(fila) {
     return true;
 }
 
-function construirCarton() {
-    let carton;
-    do {
-        carton = generarCarton();
-    }  while (!cartonValido(carton))
+function construirCarton(n = 1) {
+    const cartonesContainer = document.getElementById('cartones');
+    cartonesContainer.innerHTML = ''; 
+    for (let i = 0; i < n; i++) {
+        let carton;
+        do {
+            carton = generarCarton();
+        }  while (!cartonValido(carton))
+    
+        graficarCarton(carton);
+    }
+    
+}
 
-    graficarCarton(carton);
+function imprimirCartones() {
+    construirCarton(4);
+    window.print();
+    construirCarton();
 }
 
 construirCarton();
